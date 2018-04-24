@@ -9,7 +9,7 @@ public class Deck {
 
 		for (int k = Card.KIND_MAX; k > 0; k--) {
 			for (int n = 0; n < Card.NUM_MAX; n++)
-				cardArr[i++] = new Card(k, n + 1);
+				cardArr[i++] = new Card(k, n + 1);	//객체배열 생성후 값을 넣어줌 [ 넣지 않으면 null값이라 에러가 발생한다.]
 		}
 	}
 
