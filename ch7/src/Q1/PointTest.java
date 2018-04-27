@@ -46,8 +46,10 @@ class Point {
 	}
 
 	static double getDistance(Point p1, Point p2) {
-
-		return Math.sqrt((p2.x - p1.x) * (p2.x - p1.x) + (p2.y - p1.y) * (p2.y - p1.y)); // 두점의 거리를 구하는 공식
+		int a = p1.x - p2.x;
+		int b = p1.y - p2.y;
+		return Math.sqrt((a*a)+(b*b));
+		//return Math.sqrt((p2.x - p1.x) * (p2.x - p1.x) + (p2.y - p1.y) * (p2.y - p1.y)); // 두점의 거리를 구하는 공식
 	}
 
 	double getDistance(Point p) { // 위와 오버로딩 되어 자신이 아닌 위를 부름
@@ -55,13 +57,6 @@ class Point {
 	}
 
 	public boolean equals(Object o) {
-
-		// if ( o instanceof Point) { // 매개변수로 받은 객체 o가 Point클래스의 객체인지 체크
-		// Point p = (Point) o;
-		// if (this.x == p.x && this.y == p.y)
-		// return true;
-		// }
-		// return false;
 
 		if (o instanceof Point)
 			return false;
@@ -73,26 +68,8 @@ class Point {
 	public int compareTo(Object o) {
 		if (o instanceof Point) { // 매개변수로 받은 객체 o가 Point클래스의 객체인지 체크
 			Point p = (Point) o;
-			int point = (x + y) - (p.x + p.y);
-			return point >= 0 ? point : -point;
 		}
 		return -999999;
-	}
-
-	public int getX() { // get, set을 이용해서 private에 접근
-		return x;
-	}
-
-	public void setX(int x) {
-		this.x = x;
-	}
-
-	public int getY() {
-		return y;
-	}
-
-	public void setY(int y) {
-		this.y = y;
 	}
 
 }
