@@ -70,7 +70,7 @@ class Dropship extends GroundUnit implements Repairable {
 
 }
 
-class Marine extends GroundUnit{
+class Marine extends GroundUnit{	//얘는 회복 안됨 인터페이스를 받지않음
 	public Marine() {
 		super(40);
 		hitPoint = MAX_HP;
