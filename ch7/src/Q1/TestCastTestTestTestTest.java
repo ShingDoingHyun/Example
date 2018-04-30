@@ -188,5 +188,28 @@ class Dealer{
 	
 }
 class Deck{
-	Card[] cards = new Card[52];
+	static final int CARD_MAX = 51;//¸ð¾çÄ¹¼ö
+	Card[] cards = new Card[CARD_MAX];
+	
+	void cardSet() {
+		int i=0;
+		for(int cardNum=0; cardNum < Card.NUM_MAX; cardNum++) {
+			for(int cardKind=0; cardKind < Card.KIND_MAX; cardKind++) {
+				cards[i].kind=cardKind;
+				cards[i].num=cardNum;
+				i++;
+				
+			}
+		}
+		for(int num=0; num< cards.length; num++) {
+			System.out.println(cards[num].kind+","+cards[num].num);
+		}
+		
+	}
+	
+	
+	
+	
+	
+	
 }
