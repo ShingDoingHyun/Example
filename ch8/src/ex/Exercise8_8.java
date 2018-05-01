@@ -24,7 +24,7 @@ public class Exercise8_8 {
 					break; // do-while문을 벗어난다
 				}
 			} catch (Exception e) {
-				System.out.println("1과 100사이의 값만을 입력하세요");
+				System.out.println("유효하지 않은 값입니다. 다시 값을 입력해주세요.");
 				count--;
 			}
 
