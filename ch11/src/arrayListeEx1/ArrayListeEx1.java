@@ -1,11 +1,11 @@
 package arrayListeEx1;
 
-import java.awt.List;
 import java.util.ArrayList;
 import java.util.Collections;
 
 public class ArrayListeEx1 {
 
+	@SuppressWarnings({ "unchecked", "rawtypes" })
 	public static void main(String[] args) {
 		ArrayList list1 = new ArrayList(10);
 		list1.add(new Integer(5));
@@ -44,6 +44,7 @@ public class ArrayListeEx1 {
 
 	}
 
+	@SuppressWarnings("rawtypes")
 	private static void print(ArrayList list1, ArrayList list2) {
 		System.out.println("list1:" + list1);
 		System.out.println("list2:" + list2);
