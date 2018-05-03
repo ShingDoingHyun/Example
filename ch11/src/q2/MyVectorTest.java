@@ -25,7 +25,7 @@ class MyVector {
 	}
 
 	void setCapacity(int capacity) {
-		//객체배열의 크기 증가
+		// 객체배열의 크기 증가
 		Object[] tmpObjArr = objArr; // 현재 객체배열을 임시로 담아둠
 		objArr = new Object[capacity]; // 새로운 객체배열 생성
 		for (int i = 0; i < size; i++) { // 새로 템프의 값을 담아준다.
@@ -41,22 +41,23 @@ class MyVector {
 	boolean isEmpty() {
 		// 객체배열이 비었는지 반환
 		// return objArr[0] == null ? true : false; // 첫번째 배엘에 값이 없으면 뒤도 모두 값이 없다.
-		return size == 0;	//size가 0이면 아무 값도 없는 것.
+		return size == 0; // 저장된 객체의 갯수 size가 0이면 아무 값도 없는 것.
 
 	}
+
 	void clear() {
-		//전체 배열 null
+		// 전체 배열 null
 		for (int i = 0; i < size; i++) // size까지 지우기
-			objArr[i] = null;
-		size=0;	//객체배열 위치 초기화
+			objArr[i] = null; // 값 없애기
+		size = 0; // 객체배열 위치 초기화
 	}
 
 	void add(Object obj) {
 		// objArr에 객체를 추가하는 메서드
-		if (size < objArr.length)
-			objArr[size++] = obj; // 들어온 값을 넣어주고 size를 증가시킨다.
-		else
-			System.out.println("배열의 범위를 넘어섰습니다.");//사이즈가 크면 그냥 탈출
+		if (!(size < objArr.length))
+			setCapacity(objArr.length + 1); // 범위보다 크면 현재 범위보다 1 증가시키고 값을 넣어준다.
+		objArr[size++] = obj; // 들어온 값을 넣어주고 size를 증가시킨다.
+
 	}
 
 	Object get(int index) {
@@ -68,7 +69,7 @@ class MyVector {
 		// objArr에 저장된 모든 객첼ㄹ 문자열로 이어서 반환
 		String tmp = "";
 		for (int i = 0; i < size; i++)
-			tmp = tmp + objArr[i];
+			tmp = tmp + objArr[i]; // 반복문으로 순차적으로 합치기
 		return tmp;
 	}
 
@@ -85,28 +86,27 @@ class MyVector {
 		// indexOf()를 이용해서 지정된 객체 삭제
 
 		int index = indexOf(obj); // 받은 값의 위치르 구한다. 없으면 -1이라 아래의 포문을 돌지 않음
-		if (index >= 0) {	
-			objArr[index] = null;	//인덱스의 값을 null로 바꾼다
-
-			for (int i = index; i < size; i++) {	//사이즈만큼 반복
+		if (index >= 0) {
+			// objArr[index] = null; //인덱스의 값을 null로 바꾼다. null로 해줄 필요 없음
+			for (int i = index; i < size; i++) {
 				try {
-					Object tmp = objArr[i];	//한칸씩 앞댕긴다.
-					objArr[i] = objArr[i + 1];
-					objArr[i + 1] = tmp;
-				} catch (Exception e) { //인덱스가 배열보다 크면 탈출
+					objArr[i] = objArr[i + 1];// 한칸씩 앞댕겨서 값을 복사한다. 어차피 마지막값은 사라진다
+				} catch (Exception e) { // 인덱스가 배열보다 크면 탈출
 					break;
 				}
 			}
-			size = size > 0 ? size - 1 : size;	//사이즈가 0보다 크면 1만큼 출인다.
+
+			objArr[size - 1] = null; // size의 마지막 값을 null로
+			size = size > 0 ? size - 1 : size; // 사이즈가 0보다 크면 1만큼 출인다.
 			return true;
 		} else
-			return false;	//0보다 작으면 탈출(같은 객체가없으면);
+			return false; // 0보다 작으면 탈출(같은 객체가없으면);
 
 	}
 
 }
 
-class Test {	//테스트용 클래스
+class Test { // 테스트용 클래스
 	String test = "";
 
 	Test(String test) {
@@ -131,10 +131,10 @@ public class MyVectorTest {
 		Test t1 = new Test();
 		Test t2 = new Test("2번테스트2 ");
 		Test t3 = new Test("test3 ");
-		Test t4 = new Test("네번째 테스트4 ");
+		Test t4 = new Test("네번째테스트4 ");
 		Test t5 = new Test("오5오오5 ");
 		Test t6 = new Test("test3 ");
-		
+
 		System.out.println("배열이 비었는가? = " + my.isEmpty());
 		my.add(t6);
 		my.add("123 ");
@@ -150,11 +150,17 @@ public class MyVectorTest {
 		System.out.println("t3의 위치 = " + my.indexOf(t3));
 		System.out.println("삭제여부 = " + my.remove(t3));
 		System.out.println("값 삭제 후 = " + my);
+
 		System.out.println("size = " + my.size());
 		System.out.println("2번 인덱스의 값 = " + my.get(2));
 		my.add(t1);
 		System.out.println("값 추가 후 = " + my);
 		my.setCapacity(4);
+		System.out.println("capacity = " + my.capacity());
+		System.out.println("크기 변경 후 = " + my);
+		my.add(t5);
+		my.add(t5);
+		my.add(t5);
 		System.out.println("capacity = " + my.capacity());
 		System.out.println("크기 변경 후 = " + my);
 		System.out.println("삭제여부 = " + my.remove(t5));
