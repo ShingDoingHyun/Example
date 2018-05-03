@@ -9,7 +9,7 @@ public class ComparatorEx {
 		String[] strArr = {"cat","Dog","lion","tiger"};
 		
 		Arrays.sort(strArr);
-		System.out.println("strArr="+Arrays.toString(strArr));
+		System.out.println("strArr ="+Arrays.toString(strArr));
 		
 		Arrays.sort(strArr, String.CASE_INSENSITIVE_ORDER);
 		System.out.println("strArr="+Arrays.toString(strArr));
