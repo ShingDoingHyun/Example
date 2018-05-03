@@ -2,12 +2,12 @@ package q2;
 
 class MyVector {
 	// 1. 객체를 저장할 배열과 size를 저장할 변수 선언
-	Object[] objArr; // 배열 생성만을 한다.
+	Object[] objArr; // 참조변수 객체배열 선언만을 한다.
 	int size = 0;
 
 	// 2. capqacity를 매개변수로 받는 생성자 선언
 	public MyVector(int capacity) {
-		objArr = new Object[capacity]; // 생성자로 값을 받아서 배열의 크기를 설정한다.
+		objArr = new Object[capacity]; // 생성자로 값을 받아서 배열의 크기를 설정하고 생성한다.
 	}
 
 	public MyVector() { // 생성자 오버로딩
@@ -25,6 +25,7 @@ class MyVector {
 	}
 
 	void setCapacity(int capacity) {
+		//객체배열의 크기 증가
 		Object[] tmpObjArr = objArr; // 현재 객체배열을 임시로 담아둠
 		objArr = new Object[capacity]; // 새로운 객체배열 생성
 		for (int i = 0; i < size; i++) { // 새로 템프의 값을 담아준다.
@@ -40,8 +41,14 @@ class MyVector {
 	boolean isEmpty() {
 		// 객체배열이 비었는지 반환
 		// return objArr[0] == null ? true : false; // 첫번째 배엘에 값이 없으면 뒤도 모두 값이 없다.
-		return size == 0;
+		return size == 0;	//size가 0이면 아무 값도 없는 것.
 
+	}
+	void clear() {
+		//전체 배열 null
+		for (int i = 0; i < size; i++) // size까지 지우기
+			objArr[i] = null;
+		size=0;	//객체배열 위치 초기화
 	}
 
 	void add(Object obj) {
@@ -49,7 +56,7 @@ class MyVector {
 		if (size < objArr.length)
 			objArr[size++] = obj; // 들어온 값을 넣어주고 size를 증가시킨다.
 		else
-			System.out.println("배열의 범위를 넘어섰습니다.");
+			System.out.println("배열의 범위를 넘어섰습니다.");//사이즈가 크면 그냥 탈출
 	}
 
 	Object get(int index) {
@@ -67,7 +74,7 @@ class MyVector {
 
 	int indexOf(Object obj) {
 		// 지정된 객체가 저장되어 있는 위치 반환
-		for (int i = 0; i < objArr.length; i++) {
+		for (int i = 0; i < size; i++) {
 			if (objArr[i].equals(obj)) // 맞는 배열이 나오면 탈출
 				return i;
 		}
@@ -90,7 +97,6 @@ class MyVector {
 					break;
 				}
 			}
-			
 			size = size > 0 ? size - 1 : size;	//사이즈가 0보다 크면 1만큼 출인다.
 			return true;
 		} else
@@ -100,7 +106,7 @@ class MyVector {
 
 }
 
-class Test {
+class Test {	//테스트용 클래스
 	String test = "";
 
 	Test(String test) {
@@ -108,7 +114,7 @@ class Test {
 	}
 
 	Test() {
-		this("test");
+		this("test ");
 	}
 
 	public String toString() {
@@ -122,24 +128,28 @@ public class MyVectorTest {
 
 		MyVector my = new MyVector();
 
-		Test t1 = new Test("test3 ");
+		Test t1 = new Test();
 		Test t2 = new Test("2번테스트2 ");
 		Test t3 = new Test("test3 ");
 		Test t4 = new Test("네번째 테스트4 ");
 		Test t5 = new Test("오5오오5 ");
+		Test t6 = new Test("test3 ");
+		
 		System.out.println("배열이 비었는가? = " + my.isEmpty());
-		my.add(t1);
+		my.add(t6);
+		my.add("123 ");
 		my.add(t2);
 		my.add(t3);
 		my.add(t4);
 		my.add(t5);
+		my.add("문자열 ");
+		System.out.println("값 보기 = " + my);
 		System.out.println("capacity = " + my.capacity());
 		System.out.println("size = " + my.size());
 		System.out.println("배열이 비었는가? = " + my.isEmpty());
 		System.out.println("t3의 위치 = " + my.indexOf(t3));
-		System.out.println("값 널기 = " + my);
 		System.out.println("삭제여부 = " + my.remove(t3));
-		System.out.println("값 삭제 후" + my);
+		System.out.println("값 삭제 후 = " + my);
 		System.out.println("size = " + my.size());
 		System.out.println("2번 인덱스의 값 = " + my.get(2));
 		my.add(t1);
@@ -149,6 +159,8 @@ public class MyVectorTest {
 		System.out.println("크기 변경 후 = " + my);
 		System.out.println("삭제여부 = " + my.remove(t5));
 		System.out.println("값 삭제 후 = " + my);
+		my.clear();
+		System.out.println("전체 값 삭제 후 = " + my);
 	}
 
 }
