@@ -2,7 +2,7 @@ package queueEx1;
 
 import java.util.*;
 
-public class QueueEx1 {
+public class QueueEx1 { 
 
 	static Queue q = new LinkedList();
 	static final int MAX_SIZE = 5;
