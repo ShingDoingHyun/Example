@@ -31,8 +31,8 @@ public class CollectionsEx {
 		System.out.println("index of 3 = "+ idx);
 		
 		System.out.println("max="+max(list));
-		System.out.println("max="+min(list));
-		System.out.println("max="+max(list, reverseOrder()));
+		System.out.println("min="+min(list));
+		System.out.println("min="+max(list, reverseOrder()));
 		
 		fill(list,9);
 		System.out.println("list="+list);
