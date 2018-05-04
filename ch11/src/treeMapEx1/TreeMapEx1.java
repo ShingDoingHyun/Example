@@ -27,11 +27,11 @@ public class TreeMapEx1 {
 		}
 
 		
-		Iterator it = map.entrySet().iterator();	
+		Iterator it = map.entrySet().iterator();	//map은 key와 value로 값을 저장하고 있기 때문에 entrySet keySet등 set을 통해서 값을 얻을 수 있다.
 		
 		System.out.println("= 기본정렬 =");
 		while(it.hasNext()) {
-			Map.Entry entry = (Map.Entry)it.next();
+			Map.Entry entry = (Map.Entry)it.next();	//Emtry혈태 (key,value)로 얻기 위해 이렇게 받음 다형성, 형변환
 			int value = ((Integer)entry.getValue()).intValue();
 			System.out.println(entry.getKey() + " : " + printBar('#', value) + " " + value);
 		}
@@ -40,7 +40,7 @@ public class TreeMapEx1 {
 		Set set = map.entrySet();
 		List list = new ArrayList<>(set);
 		
-		Collections.sort(list, new ValueComparator());
+		Collections.sort(list, new ValueComparator());// 정렬을  만들기
 		
 		it = list.iterator();
 		
@@ -64,18 +64,18 @@ public class TreeMapEx1 {
 		return new String(bar);
 	}
 
-	static class ValueComparator implements Comparator{
+	static class ValueComparator implements Comparator{	//사용자 정의 정렬을 위해 상속!
 
 		@Override
 		public int compare(Object o1, Object o2) {
-			if(o1 instanceof Map.Entry && o2 instanceof Map.Entry ) {
+			if(o1 instanceof Map.Entry && o2 instanceof Map.Entry ) {	//유효성체크
 				Map.Entry e1 = (Map.Entry)o1;
 				Map.Entry e2 = (Map.Entry)o2;
 				
 				int v1 = ((Integer)e1.getValue()).intValue();
 				int v2 = ((Integer)e2.getValue()).intValue();
 				
-				return v2 - v1;
+				return v2 - v1;	//둘중 v2가 크면 양수 적으면 음수
 			}
 			return -1;
 		}
