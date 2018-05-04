@@ -2,10 +2,13 @@ package comparatorEx;
 
 import java.util.Arrays;
 import java.util.Comparator;
+import java.util.HashSet;
 
 public class ComparatorEx {
 
 	public static void main(String[] args) {
+		
+		HashSet set = new HashSet();
 		String[] strArr = {"cat","Dog","lion","tiger"};
 		
 		Arrays.sort(strArr);
