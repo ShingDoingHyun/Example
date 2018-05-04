@@ -1,6 +1,7 @@
 package ex;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 
 public class Exercise11_1 {
 	public static void main(String[] args) {
@@ -31,6 +32,12 @@ public class Exercise11_1 {
 		System.out.println("kyo=" + kyo);
 		System.out.println("cha=" + cha);
 		System.out.println("hap=" + hap);
+		
+		
+		
+		int[] numArr = new int[5];
+		Arrays.fill(numArr, 11);
+	System.out.println(Arrays.toString(numArr));
 	}
 }
 

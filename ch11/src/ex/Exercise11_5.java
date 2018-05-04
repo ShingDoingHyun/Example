@@ -42,6 +42,8 @@ class Student implements Comparable{
 
 class Exercise11_5 {
 	public static void main(String[] args) {
+		
+
 		ArrayList list = new ArrayList();
 		list.add(new Student("È«±æµ¿", 1, 1, 100, 100, 100));
 		list.add(new Student("³²±Ã¼º", 1, 2, 90, 70, 80));
@@ -52,5 +54,9 @@ class Exercise11_5 {
 		Iterator it = list.iterator();
 		while (it.hasNext())
 			System.out.println(it.next());
+		
+		
+		
+
 	}
 }
