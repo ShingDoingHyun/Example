@@ -19,7 +19,7 @@ public class LamdaEx4 {
 		System.out.println(list);
 		
 		list.replaceAll(i->i*10);
-		System.out.println(list);
+		System.out.println(list.toString());
 		
 		Map<String, String> map = new HashMap<>();
 		map.put("1", "1");
@@ -28,6 +28,8 @@ public class LamdaEx4 {
 		map.put("4", "4");
 		
 		map.forEach((k,v)->System.out.print("{"+k+","+v+"},"));
+		System.out.println();
+		System.out.println(map);
 		System.out.println();
 		
 	}
