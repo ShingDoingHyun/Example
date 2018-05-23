@@ -7,7 +7,7 @@ import java.util.stream.Stream;
 
 public class Ex {
 
-	public static void main(String[] args) {
+	public static void main(    String[] args) {
 		List<Integer> list = Arrays.asList(1,2,5,5,9,3,4,5,4,4,1,1,8,6,7,8,9,10);
 		
 		list.forEach(i->System.out.print(i));
@@ -52,7 +52,7 @@ public class Ex {
 	System.out.println();
 	}
 	
-
+	
 
 
 }
