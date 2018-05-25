@@ -8,33 +8,35 @@ import java.net.Socket;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.Iterator;
-/**
- * @author Cremazer(cremazer@gmail.com)
- */
+
 public class TcpIpMultichatServer {
     HashMap clients;
+    
     TcpIpMultichatServer() {
         clients = new HashMap();
         Collections.synchronizedMap(clients);
     }
-    public void start() {
+    
+    public void start() {	//시작시 호줄됨
         ServerSocket serverSocket = null;
         Socket socket = null;
         try {
             serverSocket = new ServerSocket(7777);
             System.out.println("서버가 시작되었습니다.");
-            while (true) {
+            while (true) {	//반복하며 누군가 접속했는지 체크.
                 socket = serverSocket.accept();
                 System.out.println("[" + socket.getInetAddress() + ":"
                         + socket.getPort() + "]" + "에서 접속하였습니다.");
                 ServerReceiver thread = new ServerReceiver(socket);
-                thread.start();
+                thread.start();	//서버리시버시작
             }
         } catch (Exception e) {
             e.printStackTrace();
         }
     } // start()
+    
     void sendToAll(String msg) {
+
         Iterator it = clients.keySet().iterator();
         while (it.hasNext()) {
             try {
@@ -45,9 +47,11 @@ public class TcpIpMultichatServer {
             }
         } // while
     } // sendToAll
+    
     public static void main(String args[]) {
         new TcpIpMultichatServer().start();
     }
+    
     class ServerReceiver extends Thread {
         Socket socket;
         DataInputStream in;
@@ -58,6 +62,7 @@ public class TcpIpMultichatServer {
                 in = new DataInputStream(socket.getInputStream());
                 out = new DataOutputStream(socket.getOutputStream());
             } catch (IOException e) {
+            	
             }
         }
         public void run() {
@@ -68,11 +73,14 @@ public class TcpIpMultichatServer {
                 clients.put(name, out);
                 System.out.println("현재 서버접속자 수는 " 
                         + clients.size() + "입니다.");
+
                 while (in != null) {
+                	System.out.println(in.readUTF());
                     sendToAll(in.readUTF());
                 }
-            } catch (IOException e) {
-                // ignore
+            } 
+            catch (IOException e) {
+            	  System.out.println("입셉션에러");
             } finally {
                 sendToAll("#" + name + "님이 나가셨습니다.");
                 clients.remove(name);
@@ -84,4 +92,5 @@ public class TcpIpMultichatServer {
             } // try
         } // run
     } // ReceiverThread
+
 }

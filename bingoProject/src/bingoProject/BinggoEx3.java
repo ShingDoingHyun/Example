@@ -2,9 +2,16 @@ package bingoProject;
 
 import java.awt.*; 
 import java.awt.event.*;
-import java.io.DataOutputStream; 
+import java.io.BufferedReader;
+import java.io.DataOutputStream;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.io.OutputStream;
+import java.net.Socket;
 
-class BingoEx3 extends Frame { 
+import ch16_12.BingoEx3; 
+
+class BingoEx3 extends Frame implements Runnable{ 
 
       final int SIZE = 5;  // 빙고판의 크기
       int bingoCnt = 0;  // 완성된 라인의 수
@@ -26,12 +33,17 @@ class BingoEx3 extends Frame {
             "핑크팬더","하늘이","하루","한경훈","헐레벌떡", 
             "화염병","흑빛" 
       }; 
+      
+	  BufferedReader in;
+	
+	  OutputStream out;
 
-      BingoEx3() { 
-            this("Bingo Game Ver1.0"); 
+      BingoEx3(Socket socket) { 
+            this("Bingo Game Ver1.0", socket); 
       } 
 
-      BingoEx3(String title) { 
+      BingoEx3(String title, Socket socket) { 
+    	  
             super(title); 
 
             setLayout(new GridLayout(SIZE, SIZE)); 
@@ -54,6 +66,15 @@ class BingoEx3 extends Frame {
 
             setBounds(500, 200, 300, 300); 
             setVisible(true); 
+            
+            try {
+            in = new BufferedReader(new InputStreamReader(socket.getInputStream()));
+			out = socket.getOutputStream();
+			
+            new Thread(this).start();
+            }catch (Exception e) {
+			}
+        
       } 
 
       void shuffle() { 
@@ -65,6 +86,12 @@ class BingoEx3 extends Frame {
                   values[r1] = values[r2]; 
                   values[r2] = tmp; 
             } 
+      } 
+      
+      @SuppressWarnings("deprecation")
+	public static void main(String args[]) { 
+            BingoEx3 win = new BingoEx3("Bingo Game Ver1.0"); 
+            win.show(); 
       } 
 
       void print() { // 배열 bArr을 출력한다.
@@ -108,23 +135,22 @@ class BingoEx3 extends Frame {
             if(crossCnt1==SIZE) bingoCnt++; 
             if(crossCnt2==SIZE) bingoCnt++; 
 
-            System.out.println(bingoCnt); 
+         //  System.out.println(bingoCnt); 
             return bingoCnt >= SIZE; 
-      } 
-
-      @SuppressWarnings("deprecation")
-	public static void main(String args[]) { 
-            BingoEx3 win = new BingoEx3("Bingo Game Ver1.0"); 
-            win.show(); 
       } 
 
       class MyEventHandler extends WindowAdapter implements ActionListener { 
             public void actionPerformed(ActionEvent ae) { 
-                  Button btn = (Button)ae.getSource(); 
-
-          
-                  System.out.println(btn.getLabel()); // 눌러진 버튼의 Label을 콘솔에 출력한다.
-
+                  Button btn = (Button)ae.getSource();      
+                //  System.out.println(btn.getLabel()); // 눌러진 버튼의 Label을 콘솔에 출력한다.
+               
+                  try {
+                	  out.write(("300|"+btn.getLabel()+ "\n").getBytes());
+                  } catch (IOException e) {
+                	  e.printStackTrace();
+                  }
+                  
+                  
                   for(int i=0; i < btnArr.length; i++) { 
                         if(btnArr[i]==btn) { 
                               bArr[i/SIZE][i%SIZE] = true; 
@@ -132,10 +158,11 @@ class BingoEx3 extends Frame {
                         } 
                   } 
 
-                  ChatClient cc = new ChatClient();
-                  cc.ta.append(btn.getLabel());
+   
+                  
+                  
                   btn.setBackground(Color.RED); 
-                  print(); 
+                  //print(); 
                   if(checkBingo()) { 
                         System.out.println("Bingo~!!!"); 
                   } 
@@ -145,8 +172,59 @@ class BingoEx3 extends Frame {
                   e.getWindow().setVisible(false); 
                   e.getWindow().dispose(); 
                   System.exit(0); 
-            } 
+            }
+            
+            
+            void bingoCheck(String bing) {
+            	int getVal=0;
+                for(int i=0; i < btnArr.length; i++) { 
+                    if(btnArr[i].getLabel().equals(bing)) { 
+                    	getVal = i;
+                          bArr[i/SIZE][i%SIZE] = true; 
+                          break; 
+                    } 
+                } 
+
+
+		         System.out.println(btnArr[getVal].getLabel());
+		         btnArr[getVal].setBackground(Color.RED); 
+		         //print(); 
+	             if(checkBingo()) { 
+	                 System.out.println("Bingo~!!!"); 
+	             } 
+            }
       } 
+      
+      public void run() {
+    	
+  		try {
+
+			while (true) {
+				String msg = in.readLine();// msg: 서버가 보낸 메시지
+
+				
+				// msg==> "300|안녕하세요" "160|자바방--1,오라클방--1,JDBC방--1"
+
+				String msgs[] = msg.split("\\|");
+
+				String protocol = msgs[0];
+
+				switch (protocol) {
+
+				case "300":
+					String msgs2[] = msg.split("\\▶ ");
+					System.out.println(msgs2[1]);
+					break;
+				default :
+					break;
+					
+					
+				}
+			}
+  		}catch (Exception e) {
+  			System.out.println(e.getMessage());
+		}
+      }
 }
 
 

@@ -20,6 +20,7 @@ public class Server implements Runnable {
 
 	public Server() {
 
+		
 		allV = new Vector<>();
 
 		waitV = new Vector<>();

@@ -48,8 +48,11 @@ public class MainChat extends JFrame implements ActionListener, Runnable {
 
 	ChatClient cc;
 
+	//BingoEx3 be;
 	// 소켓 입출력객체
 
+	Socket s;
+	
 	BufferedReader in;
 
 	OutputStream out;
@@ -61,6 +64,8 @@ public class MainChat extends JFrame implements ActionListener, Runnable {
 		setTitle("대기실");
 
 		cc = new ChatClient();
+		
+	//	be = new BingoEx3(s);
 		
 		roomInfo = new JList<String>();
 
@@ -185,6 +190,7 @@ public class MainChat extends JFrame implements ActionListener, Runnable {
 		cc.bt_exit.addActionListener(this);
 		
 		cc.bt_start.addActionListener(this);
+		
 
 	}
 
@@ -213,7 +219,7 @@ public class MainChat extends JFrame implements ActionListener, Runnable {
 
 		} else if (ob == cc.bt_start) {// 빙고 시작
 
-			cc.bt_start.setEnabled(false);
+			
 			sendMsg("300|게임시작");	//채팅창으로 게임시작 출력
 			cc.ta.setCaretPosition(cc.ta.getText().length());
 		
@@ -271,7 +277,7 @@ public class MainChat extends JFrame implements ActionListener, Runnable {
 
 			// Socket s = new Socket(String host<서버ip>, int port<서비스번호>);
 
-			Socket s = new Socket("10.10.10.140", 5000);// 연결시도
+			s = new Socket("10.10.10.141", 5000);// 연결시도
 
 			in = new BufferedReader(new InputStreamReader(s.getInputStream()));
 
@@ -299,7 +305,6 @@ public class MainChat extends JFrame implements ActionListener, Runnable {
 			out.write((msg + "\n").getBytes());
 
 		} catch (IOException e) {
-			System.out.println("111");
 			e.printStackTrace();
 
 		}
@@ -307,11 +312,9 @@ public class MainChat extends JFrame implements ActionListener, Runnable {
 	}// sendMsg
 
 	public void run() {// 서버가 보낸 메시지 읽기
-
 		// 왜 run메소드 사용? GUI프로그램실행에 영향 미치지않는 코드 작성.
 
 		// 메소드호출은 순차적인 실행!! 스레드메소드는 동시실행(기다리지 않는 별도 실행)!!
-
 		try {
 
 			while (true) {
@@ -329,13 +332,15 @@ public class MainChat extends JFrame implements ActionListener, Runnable {
 
 					String msgs2[] = msg.split("\\▶ ");
 					if(msgs2[1].equals("게임시작")) {
-						BingoEx3 win = new BingoEx3("Bingo Game Ver1.0");
+						cc.bt_start.setEnabled(false);
+									
+				//		be.setVisible(true);
+						BingoEx3 win = new BingoEx3("Bingo Game Ver1.0", s);
 					}
 					cc.ta.append(msgs[1] + "\n");
 
 					cc.ta.setCaretPosition(cc.ta.getText().length());
-					
-					
+							
 					break;
 
 				case "160":// 방만들기

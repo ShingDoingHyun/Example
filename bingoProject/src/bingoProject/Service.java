@@ -74,7 +74,7 @@ public class Service extends Thread {
 					return; // 비정상적인 종료
 
 				if (msg.trim().length() > 0) {
-
+					
 					System.out.println("from Client: " + msg + ":" +
 
 							s.getInetAddress().getHostAddress());
