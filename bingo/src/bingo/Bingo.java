@@ -230,7 +230,7 @@ class Bingo extends Frame{
 			f.setSize(300, 200);
 			// parent Frame f , modal true Dialog . 을 로 하고 을 로 해서 필수응답 로 함
 			final Dialog info = new Dialog(f, "Information", true);
-			info.setSize(140, 90);
+			info.setSize(140, 140);
 			info.setLocation(50, 50); // parent Frame , 이 아닌 화면기준의 위치
 			info.setLayout(new FlowLayout());
 			Label msg = new Label("빙고를 누르면 이김", Label.CENTER);
@@ -259,7 +259,7 @@ class Bingo extends Frame{
 			
 			info.add(msg);
 			info.add(ok);
-			f.setVisible(true);
+			f.setVisible(false);
 			info.setVisible(true); // Dialog . 를 화면에 보이게 한다
 			}
 		}

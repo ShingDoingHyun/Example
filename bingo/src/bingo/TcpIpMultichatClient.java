@@ -215,7 +215,7 @@ public class TcpIpMultichatClient {
 
 					String protocol = msgs[0];
 
-					System.out.println(msg + "|클라도착");
+//					System.out.println(msg + "|클라도착");
 					switch (protocol) {
 
 					case "100":
@@ -235,6 +235,7 @@ public class TcpIpMultichatClient {
 					case "300":
 						//@180526
 						//win.bingoCheck(msgs[1]);
+						System.out.println(msgs[1]);
 						//@180526
 						if(name.equals(msgs[2])) {//빙고판 버튼 누른사람과 이름이 같으면 턴 false ->빙고판 disable
 							win.bingoCheck(msgs[1], true);//컬러 본인꺼 true(red)
@@ -255,7 +256,8 @@ public class TcpIpMultichatClient {
 							System.exit(0);
 						}
 					case "#":
-						System.out.println(msgs[1]);
+//						System.out.println(msgs[1]);
+						System.out.println(msg);
 						break;
 					}
 				} catch (IOException e) {
