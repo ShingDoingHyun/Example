@@ -15,6 +15,8 @@ import java.net.ConnectException;
 import java.net.Socket;
 import java.util.Scanner;
 
+//import bingoo.TcpIpMultichatClient.ClientReceiver;
+
 public class TcpIpMultichatClient {
 	static DataOutputStream out;
 	static Label stlb = new Label();
@@ -90,17 +92,23 @@ public class TcpIpMultichatClient {
 				
 					try {
 			            // 소켓을 생성하여 연결을 요청한다.
-						socket = new Socket("10.10.10.141", 7777);
-//						socket = new Socket("127.0.0.1", 7777);
+//						socket = new Socket("10.10.10.141", 7777);
+						socket = new Socket("127.0.0.1", 7777);
 						System.out.println("서버에 연결되었습니다.");
 						//textfield name받게 수정
 						Thread sender   = new Thread(new ClientSender(socket, name));
-						Thread receiver = new Thread(new ClientReceiver(socket));
+						//@180526
+//						Thread receiver = new Thread(new ClientReceiver(socket));
+						Thread receiver = new Thread(new ClientReceiver(socket,name));
+
 
 						sender.start();
 						receiver.start();
 					} catch(ConnectException ce) {
-						ce.printStackTrace();
+						//@180526
+						//ce.printStackTrace();
+						System.out.println("서버접속실패");
+						System.exit(0);
 					} catch(Exception e) {}
 					
 					
@@ -131,6 +139,15 @@ public class TcpIpMultichatClient {
 		
 		exit.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
+				
+				//@180526
+				try {
+					out.writeUTF("999|나가기");
+				} catch (IOException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				}
+				
 				System.exit(0);
 			}
 		});
@@ -169,13 +186,23 @@ public class TcpIpMultichatClient {
 
 		DataInputStream in;
 
-		ClientReceiver(Socket socket) {
+		//@180526
+		String name;
+		ClientReceiver(Socket socket, String name) {
 			this.socket = socket;
+			this.name = name;
 			try {
 				in = new DataInputStream(socket.getInputStream());
 			} catch (IOException e) {
 			}
 		}
+//		ClientReceiver(Socket socket) {
+//			this.socket = socket;
+//			try {
+//				in = new DataInputStream(socket.getInputStream());
+//			} catch (IOException e) {
+//			}
+//		}
 
 		public void run() {
 			// System.out.println("클라"+in);
@@ -198,9 +225,24 @@ public class TcpIpMultichatClient {
 						if (win == null)
 							win = new Bingo("Bingo Game Ver1.0", socket);
 						b.setEnabled(false);
+						//@180526
+						if(name.equals(msgs[2])) {//먼저 시작 버튼 누른사람이 1빠
+							win.turnCheck(true);
+						}else {
+							win.turnCheck(false);
+						}
 						break;
 					case "300":
-						win.bingoCheck(msgs[1]);
+						//@180526
+						//win.bingoCheck(msgs[1]);
+						//@180526
+						if(name.equals(msgs[2])) {//빙고판 버튼 누른사람과 이름이 같으면 턴 false ->빙고판 disable
+							win.bingoCheck(msgs[1], true);//컬러 본인꺼 true(red)
+							win.turnCheck(false);
+						}else {
+							win.bingoCheck(msgs[1], false);//컬러 남의꺼 true(green)
+							win.turnCheck(true);
+						}
 						break;
 					case "400":
 						if(msgs[1].equals("게임종료")) {

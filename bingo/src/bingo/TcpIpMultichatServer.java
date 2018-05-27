@@ -91,10 +91,17 @@ public class TcpIpMultichatServer {
 						switch (protocol) {
 
 						case "1":
-							sendToAll("1|게임시작");
+							//@180526
+							//sendToAll("1|게임시작");
+							sendToAll("1|게임시작"+"|"+name);
 							break;
+						//@180526
+						case "999":
+							return;
 						default :
-							sendToAll(msg);
+							//@180526
+							//sendToAll(msg);
+							sendToAll(msg + "|"+name);
 							break;
 
 						}
