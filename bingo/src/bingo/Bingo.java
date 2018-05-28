@@ -203,6 +203,7 @@ class Bingo extends Frame{
 			// 종료된 빙고판 사라짐
 			setVisible(false);
 			try {
+				f.setVisible(false);
 				out.writeUTF("400|게임재시작");
 			} catch (IOException e) {}// 다시시작
 		} 
