@@ -22,6 +22,7 @@ class Bingo extends Frame{
 	boolean isBingo = false;
 	boolean click=true;
 	String name="";
+	Frame f = new Frame("Turn");
 	// 빙고판 버튼에 사용할 문자열, 빙고판의 크기에 따라 이들의 일부만 사용될 수 있다.
 	String[] values = { "글쎄", "기로로", "김창우", "김천대표", "까꿍", "남궁성", "낭군이", "넓게보기", "네라주리", "다밀", "더클레오", "들개", "디벨로", "레몬",
 			"루션", "루이지노", "무색이", "문학청년", "사천사", "상상", "세피룸", "스쿨쥐", "쌩", "쏭양", "씨드", "양수호", "에노야", "에비츄", "에이스", "엔즈",
@@ -31,6 +32,8 @@ class Bingo extends Frame{
 
 	DataOutputStream out;
 
+	
+	
 	Bingo(Socket socket, String name) {
 		this("Bingo Game Ver1.0", socket, name);
 	}
@@ -59,6 +62,26 @@ class Bingo extends Frame{
 		setBounds(500, 200, 300, 300);
 		setVisible(true);
 
+
+		f.setSize(200, 190);
+		f.setLayout(null); // . 레이아웃 매니저의 설정을 해제한다
+
+		Font font = new Font("Serif", Font.ITALIC, 20);
+		Label title1 = new Label();
+
+		title1.setBounds(50, 50, 100, 100);
+		title1.setText("Your Turn");
+		title1.setFont(font);
+		f.add(title1);
+
+		Dimension frameSize = f.getSize(); // 프레임 사이즈
+		Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize(); // 모니터 사이즈
+		System.out.println("위치:"+(screenSize.height - frameSize.height)/2);
+
+		f.setLocation((screenSize.width - frameSize.width)/2, (screenSize.height - frameSize.height)/2-200); // 화면 중앙 -200만큼 위로
+		f.setVisible(false);
+		
+		
 		try {
 			out = new DataOutputStream(socket.getOutputStream());
 		} catch (Exception e) {}
@@ -269,6 +292,10 @@ class Bingo extends Frame{
 	}
 	//@180526
 	public void turnCheck(boolean turn) {
+		
+		f.setVisible(turn);//턴 알려주는 폼, 자신의 턴일때만 보여준다.
+
+			
 		setEnabled(turn);
 	}
 
