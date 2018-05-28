@@ -21,6 +21,7 @@ class Bingo extends Frame{
 	boolean[][] bArr = new boolean[SIZE][SIZE]; // 빙고판 체크여부 확인을 위한 배열
 	boolean isBingo = false;
 	boolean click=true;
+	String name="";
 	// 빙고판 버튼에 사용할 문자열, 빙고판의 크기에 따라 이들의 일부만 사용될 수 있다.
 	String[] values = { "글쎄", "기로로", "김창우", "김천대표", "까꿍", "남궁성", "낭군이", "넓게보기", "네라주리", "다밀", "더클레오", "들개", "디벨로", "레몬",
 			"루션", "루이지노", "무색이", "문학청년", "사천사", "상상", "세피룸", "스쿨쥐", "쌩", "쏭양", "씨드", "양수호", "에노야", "에비츄", "에이스", "엔즈",
@@ -30,14 +31,14 @@ class Bingo extends Frame{
 
 	DataOutputStream out;
 
-	Bingo(Socket socket) {
-		this("Bingo Game Ver1.0", socket);
+	Bingo(Socket socket, String name) {
+		this("Bingo Game Ver1.0", socket, name);
 	}
 
-	Bingo(String title, Socket socket) {
+	Bingo(String title, Socket socket, String name) {
 
 		super(title);
-
+		this.name = name;
 		setLayout(new GridLayout(SIZE, SIZE));
 
 		MyEventHandler handler = new MyEventHandler();
@@ -185,7 +186,7 @@ class Bingo extends Frame{
 		// 아니오
 		else if (option == 1) {// 종료
 			try {
-				out.writeUTF("400|게임끄기");
+				out.writeUTF("400|게임끄기|"+name);
 			} catch (IOException e) {}
 		}
 	}

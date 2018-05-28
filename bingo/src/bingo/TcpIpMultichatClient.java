@@ -24,7 +24,8 @@ public class TcpIpMultichatClient {
 	static Button exit = new Button("나가기");
 	static Socket socket;
 	static Bingo win = null;
-
+	static String name;
+	
 	public static void main(String args[]) {
 
 		//플레이어명 입력하는 프레임
@@ -57,7 +58,7 @@ public class TcpIpMultichatClient {
 					nameFrame.dispose();
 					nameFrame.setVisible(false);
 					
-					String name = nametxt.getText();
+					name = nametxt.getText();
 
 					
 					Frame f = new Frame("BinGo Game~");
@@ -155,8 +156,9 @@ public class TcpIpMultichatClient {
 
 	static class ClientSender extends Thread {
 		Socket socket;
+		private String name;
 
-		String name;
+	
 
 		ClientSender(Socket socket, String name) {
 			this.socket = socket;
@@ -223,7 +225,7 @@ public class TcpIpMultichatClient {
 						break;
 					case "1":
 						if (win == null)
-							win = new Bingo("Bingo Game Ver1.0", socket);
+							win = new Bingo("Bingo Game Ver1.0", socket, name);
 						b.setEnabled(false);
 						//@180526
 						if(name.equals(msgs[2])) {//먼저 시작 버튼 누른사람이 1빠
@@ -253,10 +255,12 @@ public class TcpIpMultichatClient {
 							win = null;
 							
 						}if(msgs[1].equals("게임끄기")) {
+							if(name.equals(msgs[2])) {
+							out.writeUTF("999|"+name);
 							System.exit(0);
+							}
 						}
 					case "#":
-//						System.out.println(msgs[1]);
 						System.out.println(msg);
 						break;
 					}

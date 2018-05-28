@@ -69,6 +69,7 @@ public class TcpIpMultichatServer {
 
 		public void run() {
 			String name = "";
+			String exitName = "";
 			try {
 				name = in.readUTF();
 				clients.put(name, out);
@@ -110,11 +111,12 @@ public class TcpIpMultichatServer {
 			} catch (Exception e) {
 				// ignore
 			} finally {
-				sendToAll("#|" + name + "님이 나가셨습니다.");
-				clients.remove(name);
-				System.out.println("[" + socket.getInetAddress() + ":" + socket.getPort() + "]" + "에서 접속을 종료하였습니다.");
-				System.out.println("현재 서버접속자 수는 " + clients.size() + "입니다.");
-				sendToAll("100|" + clients.size());
+
+					sendToAll("#|" + name + "님이 나가셨습니다.");
+					clients.remove(name);
+					System.out.println("[" + socket.getInetAddress() + ":" + socket.getPort() + "]" + "에서 접속을 종료하였습니다.");
+					System.out.println("현재 서버접속자 수는 " + clients.size() + "입니다.");
+					sendToAll("100|" + clients.size());
 
 			} // try
 		} // run
