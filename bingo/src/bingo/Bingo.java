@@ -11,6 +11,7 @@ import java.io.OutputStream;
 import java.net.Socket;
 
 import javax.swing.JOptionPane;
+import javax.swing.SwingUtilities;
 
 class Bingo extends Frame{
 
@@ -267,6 +268,18 @@ class Bingo extends Frame{
 					winCheck=true;
 					info.dispose(); // Dialog . 를 메모리에서 없앤다
 					f.setVisible(false);
+					
+					
+					
+					////////////
+					SwingUtilities.invokeLater(new Runnable() {
+						@Override
+						public void run() {
+							new Fireworks().setVisible(true);
+						}
+					});
+					
+					///////////
 
 					try {
 						out.writeUTF("400|게임종료");
